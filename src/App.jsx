@@ -7,17 +7,21 @@ import { AuthContext } from "./context/AuthProvider";
 
 const App = () => {
   useEffect(()=>{
-    const loggedInUserData = JSON.parse(
-      localStorage.getItem("loggedInUserData")
-    );
-    if(loggedInUserData){
-      if(loggedInUserData.role == "admin"){
-        setIsAdmin(true);
-        setUser(loggedInUserData.data);
-      }else if(loggedInUserData.role == "employee"){
-        setIsEmployee(true);
-        setUser(loggedInUserData.data);
+    try {
+      const loggedInUserData = JSON.parse(
+        localStorage.getItem("loggedInUserData")
+      );
+      if(loggedInUserData){
+        if(loggedInUserData.role == "admin"){
+          setIsAdmin(true);
+          setUser(loggedInUserData.data);
+        }else if(loggedInUserData.role == "employee"){
+          setIsEmployee(true);
+          setUser(loggedInUserData.data);
+        }
       }
+    } catch (error) {
+      console.log(error);
     }
   },[])
 
@@ -63,7 +67,7 @@ const App = () => {
     setUser(null);
     setIsAdmin(false);
     setIsEmployee(false);
-    localStorage.setItem("loggedInUserData",'')
+    localStorage.setItem("loggedInUserData",null)
   }
   return (
     <>
